@@ -1,3 +1,15 @@
+<!-- 
+* React를 쓰는 이유
+- 리액트 없이 자바스크립트로만 프론트엔드 코드를 작성하려면 작업의 순서는 html => 자바스크립트로 간다.
+1. html에서 element를 만들고 id나 class를 부여한다.
+2. 자바스크립트에서 queryselector나 getelementbyid 등의 함수를 사용해 직접 element를 잡아야 한다.
+3. element를 잡고 eventlistener를 따로 작성해서 element와 행위를 연결해줘야 한다.
+
+- 리액트를 사용하면 작업의 순서는 자바스크립트 => html로 간다.
+- 리액트는 자바스크립트에서 element, property, event를 한번에 설정할 수 있다.
+- 리액트에서는 자바스크립트에서 html에 적용할 내용들을 미리 작성하고 적용할 내용들을 내가 지정할 수 있다.
+-->
+
 <!DOCTYPE html>
 <html>
   <body>
@@ -5,8 +17,28 @@
   </body>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
     const root = document.getElementById("root");
+
+    // 리액트 컴포넌트
+    function Example() {
+      return (
+        <h1 id="title" onClick={() => console.log("it clicked!")}>
+          This is example of function.
+        </h1>
+      );
+    }
+
+    // 위와 같은 리액트 컴포넌트
+    const Title = () => (
+      <h3 id="Title" onMouseEnter={() => console.log("mouse enter")}>
+        hello world!
+      </h3>
+    );
+
+    /*
+    리액트 엘리먼트트
     const h3 = React.createElement(
       "h3",
       {
@@ -14,14 +46,34 @@
       },
       "Hello World!"
     );
+    */
+
+    // 리액트의 컴포넌트
+    const Btn = () => (
+      <button
+        style={{ background: "tomato" }}
+        onClick={() => console.log("im clicked!")}
+      >
+        Click button!
+      </button>
+    );
+
+    /*
+    리액트 엘리먼트트
     const btn = React.createElement(
       "button",
       {
         onClick: () => console.log("im clicked!"),
       },
       "Click me!"
+    );*/
+
+    const Container = () => (
+      <div>
+        <Title />
+        <Btn />
+      </div>
     );
-    const container = React.createElement("div", null, [h3, btn]);
-    ReactDOM.render(container, root);
+    ReactDOM.render(<Container />, root);
   </script>
 </html>
