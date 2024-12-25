@@ -8,16 +8,15 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const root = document.getElementById("root");
-    let counter = 0;
-    function countUP() {
-      counter = counter + 1;
+    function App() {
+      const [counter, modifier] = React.useState(0);
+      return (
+        <div>
+          <h3>Total Click : {counter}</h3>
+          <button>Click me!</button>
+        </div>
+      );
     }
-    const Container = () => (
-      <div>
-        <h3>Total Click : {counter}</h3>
-        <button onClick={countUP}>Click me!</button>
-      </div>
-    );
-    ReactDOM.render(<Container />, root);
+    ReactDOM.render(<App />, root);
   </script>
 </html>

@@ -18,3 +18,29 @@ Vanilla JavaScript와 ReactJS는 노드 변경 처리 과정이 좀 많이 다�
    가상 DOM을 사용함으로써, 변경이 필요한 최소한의 요소만 실제 DOM에 반영되기 때문에 불필요한 연산을 줄이고 성능을 향상시킬 수 있습니다.
 
 따라서, ReactJS는 복잡한 UI 업데이트를 효과적으로 처리할 수 있으며, 이를 통해 웹의 응답성을 향상시키고 사용자 경험을 개선할 수 있습니다!
+
+## 2. 기술
+
+### 2-1. vanilla 방식으로 리랜더링 하는 방법법
+
+- Element 내에 변수 추가하는 방법 {counter}
+
+```JavaScript
+   function countUP() {
+      counter = counter + 1;
+      ReactDOM.render(<Container />, root);
+   }
+   // 이런 식으로 필요한 부분만 렌더링한다.
+   // 트리를 전부 재구성할 필요가 없는 것이다.
+
+```
+
+### 2-3. 리액트의 setState()를 활용하는 방법
+
+- 리액트의 장점인 필요한 부분을 재랜더링하는 방법
+- 재랜더링을 위해선 변경된 데이터에 대한 정보가 필요한데 리액트는 데이터가 저장할 state를 제공한다.
+
+```JavaScript
+   const [counter, modifier] = React.useState(0);
+   // React.useState 첫 번째 매개변수는 데이터를 저장할 상태, 두 번째는 데이터를 변경하는 변경자 함수를 넣는다.
+```
