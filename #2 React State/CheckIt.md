@@ -21,6 +21,37 @@ Vanilla JavaScript와 ReactJS는 노드 변경 처리 과정이 좀 많이 다�
 
 ## 2. 기술
 
+### 2-0. JSX
+
+- 리액트에서는 자바스크립트에서 html과 css를 모두 다룰 수 있는 자바스크립트와 비슷한 JSX 언어를 지원한다.
+
+```JavaScript
+function App() {
+      const [minutes, setMinutes] = React.useState();
+      const onChange = () => {
+        console.log("somebody wrote");
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <label>Minutes</label>
+          <input
+            value={minutes}
+            id="minutes"
+            placeholder="Minutes"
+            type="number"
+            onChange={onChange}
+          />
+          <label>Hours</label>
+          <input id="Hours" placeholder="Hours" type="number" />
+        </div>
+      );
+}
+```
+
+- JSX의 특징은 컴포넌트를 사용하는 것이다. HTML 객체에 자바스크립트 코드를 입힌거라 보면 된다.
+- 자바스크립트의 특징인 addEventListener역할의 메소드를 html 태그 내에 추가할 수 있다.
+
 ### 2-1. vanilla 방식으로 리랜더링 하는 방법법
 
 - Element 내에 변수 추가하는 방법 {counter}
@@ -32,6 +63,7 @@ Vanilla JavaScript와 ReactJS는 노드 변경 처리 과정이 좀 많이 다�
    }
    // 이런 식으로 필요한 부분만 렌더링한다.
    // 트리를 전부 재구성할 필요가 없는 것이다.
+   // 밑에는 이 과정을 간단히 한 state라는 개념에 대해 공부한다.
 
 ```
 
@@ -49,6 +81,174 @@ Vanilla JavaScript와 ReactJS는 노드 변경 처리 과정이 좀 많이 다�
       setCounter((current) => current + 1); // 변수를 숨겨 수정을 막는 안전한 방법
       setCounter(counter + 1);
    }
+   // 저 setcouter라는 함수는 값을 받고 state를 수정하여 재렌더링하는 프로세스가 모두 포함된는 함수이다.
 ```
 
--
+## 3. Inputs and State
+
+- state를 이용했을 때의 장점은 컴포넌트의 변경 사항을 추적할 수 있다는 것이다. 이를 통해 필요한 부분만 재랜더링 등이 가능하다.
+- 밑의 코드는 input을 감지했을 때 react가 생성하는 event를 감지해 화면에 출력하는 내용이다. Modifier를 수정하면 어떤거든 가능하다.
+
+```JavaScript
+// code1
+
+function App() {
+      const [minutes, setMinutes] = React.useState();
+      const onChange = () => {
+        setMinutes(event.target.value);
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <label>Minutes</label>
+          <input
+            value={minutes}
+            id="minutes"
+            placeholder="Minutes"
+            type="number"
+            onChange={onChange}
+          />
+          <h4> You want to change {minutes}</h4>
+          <label>Hours</label>
+          <input id="Hours" placeholder="Hours" type="number" />
+        </div>
+      );
+    }
+
+// code 2
+
+function App() {
+      const [minutes, setMinutes] = React.useState();
+      const onChange = () => {
+        setMinutes(event.target.value);
+      };
+      const reset = () => {
+         setMinutes(0);
+      }
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <div>
+            <label htmlFor="hours">Minutes</label>
+            <input
+              value={minutes}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="Hours">Hours</label>
+            <input
+              value={minutes / 60}
+              id="Hours"
+              placeholder="Hours"
+              type="number"
+            />
+          </div>
+          <button onClick={reset}>Reset!</button>
+        </div>
+      );
+    }
+
+// 위 코드는 minutes라는 state를 이용해서 minutes의 변화가 감지되면 그 값을 바탕으로 해당 컴포넌트를 재렌더링하는 코드이다.
+// Minutes를 작성하면 Hours의 input에도 minutes state의 값이 재렌더링을 통해 작성된다.
+// html상에서는 변경된 값만 재렌더링된다. (button 컴포넌트도 마찬가지!)
+
+// code 3
+const [flipped, setFlipped] = React.useState(false);
+const onFlip = () => setFlipped((current) => !current); // 현재 상태를 가지고 state를 변경하는 방법이다.
+
+// code 4
+function App() {
+      const [amount, setAmount] = React.useState();
+      const [flipped, setFlipped] = React.useState(false);
+      const onChange = () => {
+        setAmount(event.target.value);
+      };
+      const reset = () => setMinutes(0);
+      const onFlip = () => {
+        reset();
+        setFlipped((current) => !current);
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <div>
+            <label htmlFor="hours">Minutes</label>
+            <input
+              value={flipped ? amount * 60 : amount}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              disabled={flipped === true}
+            />
+          </div>
+          <div>
+            <label htmlFor="Hours">Hours</label>
+            <input
+              value={flipped ? amount : Math.round(amount / 60)}
+              id="Hours"
+              placeholder="Hours"
+              type="number"
+              disabled={flipped === false}
+            />
+          </div>
+          <button onClick={reset}>Reset!</button>
+          <button onClick={onFlip}>flip!</button>
+        </div>
+      );
+    }
+// code 3를 적용한 모습
+// 삼항 연산자를 사용해서 조건문을 적용
+// reset시에도 state를 수정할 수 있게 변경.
+
+// code 5 총정리
+function App() {
+      const [amount, setAmount] = React.useState();
+      const [flipped, setFlipped] = React.useState(false); // state 2개
+      const onChange = () => {
+        setAmount(event.target.value); // input 태그에 입력한 값으로 재랜더링
+      };
+      const reset = () => setAmount(0); // reset함수, amount 값을 0으로 초기화하는 setAmount함수 실행
+      const onFlip = () => { // flip 전용 함수
+        reset();
+        setFlipped((current) => !current); // 현재 값을 바탕으로 flip값을 변경
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <div>
+            <label htmlFor="hours">Minutes</label>
+            <input
+              value={flipped ? amount * 60 : amount} // flip 값을 바탕으로 출력값을 지정
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange} // Change 이벤트가 발생하면 onChange 함수 실행
+              disabled={flipped === true} // flip 여부에 따라 input 태그의 값 변경
+            />
+          </div>
+          <div>
+            <label htmlFor="Hours">Hours</label>
+            <input
+              value={flipped ? amount : Math.round(amount / 60)}
+              id="Hours"
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={flipped === false}
+            />
+          </div>
+          <button onClick={reset}>Reset!</button>
+          <button onClick={onFlip}>flip!</button>
+        </div>
+      );
+    }
+```
+
+## 4. HTML & JSX
+
+- 둘은 엄연하게 다른 언어
