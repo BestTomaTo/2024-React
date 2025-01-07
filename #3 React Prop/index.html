@@ -5,6 +5,7 @@
   </body>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script srcc=https://unpkg.com/prop-types@15.8.1/prop-types.js"
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const root = document.getElementById("root");
@@ -26,6 +27,10 @@
         </button>
       );
     }
+    Btn.propTypes = {
+      text: PropTypes.string.isRequired,
+    };
+
     const MemorizedBtn = React.memo(Btn);
     function App() {
       const [value, setValue] = React.useState("Save Changes");

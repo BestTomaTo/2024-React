@@ -36,4 +36,15 @@ const MemorizedBtn = React.memo(Btn);
     }
 
 // 노드 트리를 재생성할 때 지정한 노드만 재생성하게끔 만드는 방법.
+// Btn의 요소 중 변경된 요소만 재렌더링하게 하는 방법이다.
+```
+
+## 3. Prop Types
+
+- 컴포넌트 내의 prop에 적절한 타입의 데이터를 전달했는지를 검사하는 prop type pkg가 있다. 검색해서 사용해 볼 것.
+
+```JavaScript
+Btn.propTypes = {
+      text: PropTypes.string.isRequired,
+};
 ```
