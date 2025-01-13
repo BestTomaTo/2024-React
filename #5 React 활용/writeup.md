@@ -47,3 +47,7 @@ const deleteToDo = (index) => {
     setToDos(toDos.filter((item, todoIndex) => index !== todoIndex));
   };
 ```
+
+## 2. Coin Trackers
+
+###
